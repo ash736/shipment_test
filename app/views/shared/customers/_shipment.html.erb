@@ -1,0 +1,10 @@
+
+<%= turbo_frame_tag "shipment_#{shipment.id}" do %>
+  <tr>
+    <td><%= shipment.source %></td>
+    <td><%= shipment.target %></td>
+    <td><%= shipment.item %></td>
+    <td><%= shipment.status %></td>
+    <td><%= shipment.delivery_partner&.name %></td>
+  </tr>
+<% end %>

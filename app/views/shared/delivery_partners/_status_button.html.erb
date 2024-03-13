@@ -1,0 +1,7 @@
+<%= turbo_frame_tag "delivery_partner_status" do %>
+  <% if @delivery_partner.active_for_delivery %>
+    <%= button_to "Inactive", delivery_partner_update_availability_path, method: :put, params: { available: false }, class: "btn btn-primary mb-3" %>
+  <% else %>
+    <%= button_to "Active", delivery_partner_update_availability_path, method: :put, params: { available: true }, class: "btn btn-primary mb-3" %>
+  <% end %>
+<% end %>

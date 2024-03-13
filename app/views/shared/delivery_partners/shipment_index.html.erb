@@ -1,0 +1,36 @@
+<%= render 'shared/navbar' %>
+
+<div class="container mt-5">
+
+  <%= render partial: 'shared/delivery_partners/status_button' %>
+
+  <br/>
+  <h1 class="mb-4">Assigned Shipments</h1>
+
+  <% if @shipments.present? %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Source</th>
+          <th>Target</th>
+          <th>Item</th>
+          <th>Status</th>
+          <th>Order By</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @shipments.each do |shipment| %>
+          <tr>
+            <td><%= shipment.source %></td>
+            <td><%= shipment.target %></td>
+            <td><%= shipment.item %></td>
+            <td><%= shipment.status %></td>
+            <td><%= shipment.customer.name %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p>No assigned shipments found.</p>
+  <% end %>
+</div>

@@ -1,0 +1,26 @@
+<%= render 'shared/navbar' %>
+
+<div class="container mt-5">
+  <h1 class="mb-4">Your Shipments</h1>
+
+  <% if @shipments.present? %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Source</th>
+          <th>Target</th>
+          <th>Item</th>
+          <th>Status</th>
+          <th>Delivered By</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @shipments.each do |shipment| %>
+          <%= render partial: 'shared/customers/shipment', locals: {shipment: shipment} %>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p>No shipments found.</p>
+  <% end %>
+</div>

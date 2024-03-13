@@ -1,0 +1,37 @@
+<%= render 'shared/navbar' %>
+
+<div class="container mt-5">
+  
+  <h1 class="mb-4">Create Shipment</h1>
+  <% if @shipment.errors.any? %>
+    <div id="error_explanation" class="alert alert-danger" data-turbo-cache="false">
+        <h2>
+        <%= I18n.t("errors.messages.not_saved",
+                    count: @shipment.errors.count,
+                    resource: 'shipment')
+        %>
+        </h2>
+        <ul>
+        <% @shipment.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+        <% end %>
+        </ul>
+    </div>
+  <% end %>
+
+  <%= form_with model: @shipment, url: shipments_path, method: :post do |f| %>
+    <div class="mb-3">
+      <%= f.label :source, class: "form-label" %>
+      <%= f.text_field :source, class: "form-control" %>
+    </div>
+    <div class="mb-3">
+      <%= f.label :target, class: "form-label" %>
+      <%= f.text_field :target, class: "form-control" %>
+    </div>
+    <div class="mb-3">
+      <%= f.label :item, class: "form-label" %>
+      <%= f.text_field :item, class: "form-control" %>
+    </div>
+  <%= f.submit "Create Shipment", class: "btn btn-primary" %>
+  <% end %>
+</div>
