@@ -1,10 +1,7 @@
-
-<%= turbo_frame_tag "shipment_#{shipment.id}" do %>
-  <tr>
-    <td><%= shipment.source %></td>
-    <td><%= shipment.target %></td>
-    <td><%= shipment.item %></td>
-    <td><%= shipment.status %></td>
-    <td><%= shipment.delivery_partner&.name %></td>
-  </tr>
-<% end %>
+<tr>
+  <td><%= shipment.source %></td>
+  <td><%= shipment.target %></td>
+  <td><%= shipment.item %></td>
+  <td><%= render "shared/customers/status_form", shipment: shipment %></td>
+  <td><%= shipment.delivery_partner&.name %></td>
+</tr>

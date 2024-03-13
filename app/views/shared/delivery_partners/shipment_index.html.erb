@@ -5,9 +5,9 @@
   <%= render partial: 'shared/delivery_partners/status_button' %>
 
   <br/>
-  <h1 class="mb-4">Assigned Shipments</h1>
 
-  <% if @shipments.present? %>
+  <% if @non_deliver_shipments.present? %>
+    <h1 class="mb-4">Assigned Shipments</h1>
     <table class="table">
       <thead>
         <tr>
@@ -19,18 +19,44 @@
         </tr>
       </thead>
       <tbody>
-        <% @shipments.each do |shipment| %>
-          <tr>
+        <% @non_deliver_shipments.each do |shipment| %>
+          <%= render partial: 'shared/delivery_partners/shipment', locals: {shipment: shipment} %>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+
+  <% if @deliver_shipments.present? %>
+    <h1 class="mb-4">Deliverd Shipments</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Source</th>
+          <th>Target</th>
+          <th>Item</th>
+          <th>Status</th>
+          <th>Order By</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @deliver_shipments.each do |shipment| %>
+           <tr>
             <td><%= shipment.source %></td>
             <td><%= shipment.target %></td>
             <td><%= shipment.item %></td>
-            <td><%= shipment.status %></td>
+            <td>
+              <button class="btn btn-secondary" type="button" aria-expanded="false">
+                <%= shipment.status %>
+              </button>
+            </td>
             <td><%= shipment.customer.name %></td>
           </tr>
         <% end %>
       </tbody>
     </table>
-  <% else %>
+  <% end %>
+  
+  <% if @non_deliver_shipments.empty? && @deliver_shipments.empty? %>
     <p>No assigned shipments found.</p>
   <% end %>
 </div>

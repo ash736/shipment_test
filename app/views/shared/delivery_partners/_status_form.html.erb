@@ -1,0 +1,28 @@
+<% if ['pending', 'shipped'].any?(shipment.status) %>
+  <%= turbo_frame_tag "status_form_#{shipment.id}" do %>
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <%= shipment.status %>
+      </button>
+      <ul class="dropdown-menu">
+        <% if shipment.pending? %>
+          <%= form_with(url: update_status_shipment_path(shipment), method: :put, class: "dropdown-form") do |form| %>
+          <%= form.hidden_field :status, value: "shipped" %>
+          <%= form.submit "Shipped", class: "dropdown-item", data: { turbo_frame: "status_form_#{shipment.id}" } %>
+          <% end %>
+        <% end %>
+
+        <% if shipment.shipped? %>
+          <%= form_with(url: update_status_shipment_path(shipment), method: :put, class: "dropdown-form") do |form| %>
+          <%= form.hidden_field :status, value: "delivered" %>
+          <%= form.submit "Delivered", class: "dropdown-item", data: { turbo_frame: "status_form_#{shipment.id}" } %>
+          <% end %>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+<% else %>
+  <button class="btn btn-secondary" type="button" aria-expanded="false">
+    <%= shipment.status %>
+  </button>
+<% end %>  

@@ -1,0 +1,7 @@
+ <tr>
+  <td><%= shipment.source %></td>
+  <td><%= shipment.target %></td>
+  <td><%= shipment.item %></td>
+  <td><%= render "shared/delivery_partners/status_form", shipment: shipment %></td>
+  <td><%= shipment.customer.name %></td>
+</tr>

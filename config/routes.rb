@@ -1,9 +1,11 @@
 Rails.application.routes.draw do
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
   devise_for :delivery_partners
   devise_for :customers
 
   resources :shipments, only: [:index, :new, :create] do
-    patch 'update_status', on: :member
+    put 'update_status', on: :member
   end
 
   put 'delivery_partner/update_availability', to: 'delivery_partner#update_avilability'

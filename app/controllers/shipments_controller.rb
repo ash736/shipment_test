@@ -4,11 +4,13 @@ class ShipmentsController < ApplicationController
 
   def index
     if current_customer
-      @shipments = current_customer.shipments.includes(:delivery_partner)
+      @non_deliver_shipments = current_customer.shipments.includes(:delivery_partner).not_delivered
+      @deliver_shipments = current_customer.shipments.includes(:delivery_partner).delivered
       render 'shared/customers/shipment_index'
     elsif current_delivery_partner
       @delivery_partner = current_delivery_partner
-      @shipments = current_delivery_partner.shipments.includes(:customer)
+      @non_deliver_shipments = current_delivery_partner.shipments.includes(:customer).not_delivered.not_cancelled
+      @deliver_shipments = current_delivery_partner.shipments.includes(:customer).delivered.not_cancelled
       render 'shared/delivery_partners/shipment_index'
     end
   end
@@ -18,10 +20,7 @@ class ShipmentsController < ApplicationController
   end
 
   def create
-    chosen_partner = DeliveryPartner.least_shipments_with_pending_or_shipped
-
     @shipment = current_customer.shipments.build(shipment_params)
-    @shipment.delivery_partner = chosen_partner if chosen_partner.present?
     if @shipment.save
       redirect_to shipments_path, notice: "Shipment created successfully"
     else
@@ -31,8 +30,14 @@ class ShipmentsController < ApplicationController
 
   def update_status
     @shipment = Shipment.find(params[:id])
-    @shipment.update(status: params[:status])
-    redirect_to shipments_path, notice: "Shipment status updated successfully"
+    template = current_customer ? 'shared/customers/status_form' : 'shared/delivery_partners/status_form'
+    respond_to do |format|
+      if @shipment.update(status: params[:status])
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("status_form_#{@shipment.id}", partial: template, locals: { shipment: @shipment }) }
+      else
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("status_form_#{@shipment.id}", partial: template, locals: { shipment: @shipment.reload }) }
+      end
+    end
   end
 
   private

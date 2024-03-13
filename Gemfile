@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-ruby "3.2.3"
+ruby "3.3.0"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.3", ">= 7.1.3.2"
@@ -45,10 +45,10 @@ gem "bootsnap", require: false
 # gem "image_processing", "~> 1.2"
 
 gem 'devise'
-gem 'rspec-rails', '~> 5.0'
 gem 'bootstrap', '~> 5.3.0'
 gem 'mini_racer'
 gem 'sassc-rails'
+gem 'activeadmin'
 
 
 group :development, :test do
@@ -56,6 +56,9 @@ group :development, :test do
   gem "debug", platforms: %i[ mri windows ]
   gem 'byebug'
   gem "letter_opener"
+  gem 'rspec-rails', '~> 5.0'
+  gem 'factory_bot_rails', '~> 6.2.0'
+  gem 'faker'
 end
 
 group :development do
